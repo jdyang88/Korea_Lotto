@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
-from catboost import CatBoostClassifier  # CatBoost 추가
+from catboost import CatBoostClassifier
 from itertools import combinations
 from collections import Counter
 import matplotlib.pyplot as plt
@@ -38,15 +38,18 @@ def most_frequent_analysis(y, num_elements, num_most_common=10):
         for element in combinations(row, num_elements):
             all_elements.append(tuple(sorted(element)))
     freq_elements = Counter(all_elements).most_common(num_most_common)
+    if not freq_elements:
+        return [(("None",), 0)]
     return freq_elements
 
-# Analyze and visualize the most frequent single numbers, pairs, triplets, and quadruplets
+# Analyze and visualize the most frequent single numbers, pairs, triplets, quadruplets, quintuplets, and sextuplets
 def visualize_most_frequent(y):
     analysis_config = [
         (1, 'Most Frequent 1-element Sets', 45),
-        (2, 'Most Frequent 2-element Sets', 20),
-        (3, 'Most Frequent 3-element Sets', 10),
-        (4, 'Most Frequent 4-element Sets', 5)  # Adding analysis for 4-pair sets
+        (2, 'Most Frequent 2-element Sets', 40),
+        (3, 'Most Frequent 3-element Sets', 35),
+        (4, 'Most Frequent 4-element Sets', 30),
+        (5, 'Most Frequent 5-element Sets', 20),  # Added analysis for 5-pair sets
     ]
 
     for num_elements, title, num_most_common in analysis_config:
@@ -55,13 +58,13 @@ def visualize_most_frequent(y):
         elements = ['\n'.join(map(str, el)) for el in elements]
 
         plt.figure(figsize=(14, 6))
-        plt.bar(elements, counts, color='skyblue' if num_elements == 1 else 'lightgreen' if num_elements == 2 else 'salmon' if num_elements == 3 else 'gold')
+        plt.bar(elements, counts, color='skyblue' if num_elements == 1 else 'lightgreen' if num_elements == 2 else 'salmon' if num_elements == 3 else 'gold' if num_elements == 4 else 'purple' if num_elements == 5 else 'orange')
         plt.title(title)
         plt.ylabel('Frequency')
         plt.xticks(rotation=45, ha="right")
         st.pyplot(plt)
 
-# Define models
+# Define models (the same as before)
 models = {
     'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),
     'AdaBoost': AdaBoostClassifier(n_estimators=100, random_state=42),
@@ -73,7 +76,7 @@ models = {
         final_estimator=LogisticRegression()
     ),
     'SVM': SVC(random_state=42, probability=True),
-    'CatBoost': CatBoostClassifier(verbose=0, random_state=42)  # CatBoost를 추가하고 LightGBM 제거
+    'CatBoost': CatBoostClassifier(verbose=0, random_state=42)
 }
 
 # Function to train models and predict numbers
