@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
-import lightgbm as lgb
+from catboost import CatBoostClassifier  # CatBoost 추가
 from itertools import combinations
 from collections import Counter
 import matplotlib.pyplot as plt
@@ -73,7 +73,7 @@ models = {
         final_estimator=LogisticRegression()
     ),
     'SVM': SVC(random_state=42, probability=True),
-    'LightGBM': lgb.LGBMClassifier(random_state=42)
+    'CatBoost': CatBoostClassifier(verbose=0, random_state=42)  # CatBoost를 추가하고 LightGBM 제거
 }
 
 # Function to train models and predict numbers
@@ -110,7 +110,7 @@ def predict_numbers_and_accuracy(models):
     return model_predictions
 
 # Button to predict winning lotto numbers and display analysis
-if st.button('Predict 5 sets Winning Lotto Numbers by 5 Models'):
+if st.button('Predict 5sets Winning Lotto Numbers by 5 Models'):
     predictions = predict_numbers_and_accuracy(models)
     predictions_df = pd.DataFrame(predictions).T.reset_index()
     predictions_df.columns = ['Model', 'Predicted Numbers', 'Predicted Accuracy (%)']
