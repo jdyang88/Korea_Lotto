@@ -99,6 +99,11 @@ def predict_numbers_and_accuracy(models):
             next_draw_prediction = model.predict(np.array([[X.max() + 1]]))
             predictions.append(int(next_draw_prediction[0]))
         mean_accuracy = np.mean(accuracies) * 100  # Convert accuracy to percentage
+        
+        # Sort the predictions for CatBoost model after all numbers have been predicted
+        if model_name == 'CatBoost':
+            predictions = sorted(predictions)
+        
         model_predictions[model_name] = {'Predicted Numbers': predictions, 'Predicted Accuracy (%)': mean_accuracy}
         
         # Update progress bar
@@ -119,16 +124,18 @@ if st.button('Predict 5 sets Winning Lotto Numbers by 5 ML Models'):
     predictions_df.columns = ['Model', 'Predicted Numbers', 'Predicted Accuracy (%)']
     st.table(predictions_df)
 
-    # Model descriptions
-    st.text("""
-    Model Descriptions:
-    - Random Forest: An ensemble method that uses multiple decision trees to improve prediction accuracy.
-    - AdaBoost: An adaptive boosting algorithm that combines multiple weak learners to create a strong learner.
-    - Stacking: Combines predictions from multiple models and uses another model to compute the final prediction.
-    - SVM: Support Vector Machine is a powerful classifier that works well on a wide range of classification problems.
-    - CatBoost: A gradient boosting algorithm that can handle categorical features directly and is robust to overfitting.
-    """)
+    model_descriptions = {
+    'Random Forest': 'An ensemble method that uses multiple decision trees to improve prediction accuracy.',
+    'AdaBoost': 'An adaptive boosting algorithm that combines multiple weak learners to create a strong learner.',
+    'Stacking': 'Combines predictions from multiple models and uses another model to compute the final prediction.',
+    'SVM': 'Support Vector Machine is a powerful classifier that works well on a wide range of classification problems.',
+    'CatBoost': 'A gradient boosting algorithm that can handle categorical features directly and is robust to overfitting.'
+    }
+
+    # 딕셔너리를 데이터프레임으로 변환
+    model_descriptions_df = pd.DataFrame(list(model_descriptions.items()), columns=['Model', 'Description'])
+
+    # 스트림릿을 사용하여 테이블로 표시
+    st.table(model_descriptions_df)
     
     visualize_most_frequent(y)  # Call the visualization function here
-
-
