@@ -64,7 +64,7 @@ def visualize_most_frequent(y):
         plt.xticks(rotation=45, ha="right")
         st.pyplot(plt)
 
-# Define models (the same as before)
+# Define models with brief descriptions
 models = {
     'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),
     'AdaBoost': AdaBoostClassifier(n_estimators=100, random_state=42),
@@ -113,9 +113,22 @@ def predict_numbers_and_accuracy(models):
     return model_predictions
 
 # Button to predict winning lotto numbers and display analysis
-if st.button('Predict 5sets Winning Lotto Numbers by 5 Models'):
+if st.button('Predict 5 sets Winning Lotto Numbers by 5 ML Models'):
     predictions = predict_numbers_and_accuracy(models)
     predictions_df = pd.DataFrame(predictions).T.reset_index()
     predictions_df.columns = ['Model', 'Predicted Numbers', 'Predicted Accuracy (%)']
     st.table(predictions_df)
+
+    # Model descriptions
+    st.text("""
+    Model Descriptions:
+    - Random Forest: An ensemble method that uses multiple decision trees to improve prediction accuracy.
+    - AdaBoost: An adaptive boosting algorithm that combines multiple weak learners to create a strong learner.
+    - Stacking: Combines predictions from multiple models and uses another model to compute the final prediction.
+    - SVM: Support Vector Machine is a powerful classifier that works well on a wide range of classification problems.
+    - CatBoost: A gradient boosting algorithm that can handle categorical features directly and is robust to overfitting.
+    """)
+    
     visualize_most_frequent(y)  # Call the visualization function here
+
+
