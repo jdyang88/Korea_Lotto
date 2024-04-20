@@ -64,19 +64,21 @@ def visualize_most_frequent(y):
         plt.xticks(rotation=45, ha="right")
         st.pyplot(plt)
 
+SEED=0
+
 # Define models with brief descriptions
 models = {
-    'Random Forest': RandomForestClassifier(n_estimators=100, random_state=8),
-    'AdaBoost': AdaBoostClassifier(n_estimators=100, random_state=8),
+    'Random Forest': RandomForestClassifier(n_estimators=100, random_state=SEED),
+    'AdaBoost': AdaBoostClassifier(n_estimators=100, random_state=SEED),
     'Stacking': StackingClassifier(
         estimators=[
-            ('rf', RandomForestClassifier(n_estimators=10, random_state=8)),
-            ('dt', DecisionTreeClassifier(random_state=8))
+            ('rf', RandomForestClassifier(n_estimators=10, random_state=SEEDSEED)),
+            ('dt', DecisionTreeClassifier(random_state=SEED))
         ],
         final_estimator=LogisticRegression()
     ),
     'SVM': SVC(random_state=42, probability=True),
-    'CatBoost': CatBoostClassifier(verbose=0, random_state=8)
+    'CatBoost': CatBoostClassifier(verbose=0, random_state=SEEDSEED)
 }
 
 # Function to train models and predict numbers
@@ -90,7 +92,7 @@ def predict_numbers_and_accuracy(models):
     for i, (model_name, model) in enumerate(models.items(), start=1):
         accuracies = []
         predictions = []
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=8)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=SEED)
         for j in range(y.shape[1]):  # For each position in the drawn numbers
             model.fit(X_train, y_train[:, j])
             y_pred = model.predict(X_test)
