@@ -64,7 +64,7 @@ def visualize_most_frequent(y):
         plt.xticks(rotation=45, ha="right")
         st.pyplot(plt)
 
-SEED=0
+SEED-0
 
 # Define models with brief descriptions
 models = {
@@ -72,13 +72,13 @@ models = {
     'AdaBoost': AdaBoostClassifier(n_estimators=100, random_state=SEED),
     'Stacking': StackingClassifier(
         estimators=[
-            ('rf', RandomForestClassifier(n_estimators=10, random_state=SEEDSEED)),
+            ('rf', RandomForestClassifier(n_estimators=10, random_state=SEED)),
             ('dt', DecisionTreeClassifier(random_state=SEED))
         ],
         final_estimator=LogisticRegression()
     ),
     'SVM': SVC(random_state=42, probability=True),
-    'CatBoost': CatBoostClassifier(verbose=0, random_state=SEEDSEED)
+    'CatBoost': CatBoostClassifier(verbose=0, random_state=SEED)
 }
 
 # Function to train models and predict numbers
