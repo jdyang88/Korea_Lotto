@@ -210,7 +210,7 @@ def visualize_most_frequent(y):
         plt.xticks(rotation=45, ha="right")
         st.pyplot(plt)
 
-SEED = 2024
+SEED = 0
 
 # Define models with brief descriptions
 models = {
