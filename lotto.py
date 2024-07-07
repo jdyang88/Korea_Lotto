@@ -29,7 +29,7 @@
 # # Display the most recent draw number and winning numbers
 # most_recent_draw = data.iloc[-1, 0]
 # most_recent_winning_numbers = data.iloc[-1, 1:].tolist()
-# st.write(f"Most Recent Round : {most_recent_draw} and the Winning Numbers : {most_recent_winning_numbers}")
+# st.write(f"Most Recent Round: {most_recent_draw} and the Winning Numbers: {most_recent_winning_numbers}")
 
 # # Functions for frequency analysis
 # def most_frequent_analysis(y, num_elements, num_most_common=10):
@@ -58,13 +58,13 @@
 #         elements = ['\n'.join(map(str, el)) for el in elements]
 
 #         plt.figure(figsize=(14, 6))
-#         plt.bar(elements, counts, color='skyblue' if num_elements == 1 else 'lightgreen' if num_elements == 2 else 'salmon' if num_elements == 3 else 'gold' if num_elements == 4 else 'purple' if num_elements == 5 else 'orange')
+#         plt.bar(elements, counts, color=['skyblue', 'lightgreen', 'salmon', 'gold', 'purple'][num_elements-1])
 #         plt.title(title)
 #         plt.ylabel('Frequency')
 #         plt.xticks(rotation=45, ha="right")
 #         st.pyplot(plt)
 
-# SEED=2024
+# SEED = 0
 
 # # Define models with brief descriptions
 # models = {
@@ -134,13 +134,13 @@
 #     'CatBoost': 'A gradient boosting algorithm that can handle categorical features directly and is robust to overfitting.'
 #     }
 
-#     # 딕셔너리를 데이터프레임으로 변환
+#     # Convert dictionary to dataframe and display
 #     model_descriptions_df = pd.DataFrame(list(model_descriptions.items()), columns=['Model', 'Description'])
-
-#     # 스트림릿을 사용하여 테이블로 표시
 #     st.table(model_descriptions_df)
     
 #     visualize_most_frequent(y)  # Call the visualization function here
+
+
 
 
 
@@ -246,13 +246,16 @@ def predict_numbers_and_accuracy(models):
             accuracies.append(accuracy)
             next_draw_prediction = model.predict(np.array([[X.max() + 1]]))
             predictions.append(int(next_draw_prediction[0]))
+        
+        # Ensure predictions are unique
+        unique_predictions = list(set(predictions))
+        while len(unique_predictions) < 6:
+            unique_predictions.append(np.random.choice(list(set(range(1, 46)) - set(unique_predictions))))
+        unique_predictions.sort()
+        
         mean_accuracy = np.mean(accuracies) * 100  # Convert accuracy to percentage
         
-        # Sort the predictions for CatBoost model after all numbers have been predicted
-        if model_name == 'CatBoost':
-            predictions = sorted(predictions)
-        
-        model_predictions[model_name] = {'Predicted Numbers': predictions, 'Predicted Accuracy (%)': mean_accuracy}
+        model_predictions[model_name] = {'Predicted Numbers': unique_predictions, 'Predicted Accuracy (%)': mean_accuracy}
         
         # Update progress bar
         progress_bar.progress(i / num_models)
