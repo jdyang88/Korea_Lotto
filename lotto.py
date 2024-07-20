@@ -120,7 +120,7 @@
 #     return model_predictions
 
 # # Button to predict winning lotto numbers and display analysis
-# if st.button('Predict 5 sets Winning Lotto Numbers by 5 ML Models'):
+# if st.button('Predict NEXT 5 sets of Winning Lotto Numbers by 5 ML Models'):
 #     predictions = predict_numbers_and_accuracy(models)
 #     predictions_df = pd.DataFrame(predictions).T.reset_index()
 #     predictions_df.columns = ['Model', 'Predicted Numbers', 'Predicted Accuracy (%)']
@@ -269,7 +269,7 @@ def predict_numbers_and_accuracy(models):
     return model_predictions
 
 # Button to predict winning lotto numbers and display analysis
-if st.button('Predict NEXT 5 sets Winning Lotto Numbers by 5 ML Models'):
+if st.button('Predict NEXT 5 sets of Winning Lotto Numbers by 5 ML Models'):
     predictions = predict_numbers_and_accuracy(models)
     predictions_df = pd.DataFrame(predictions).T.reset_index()
     predictions_df.columns = ['Model', 'Predicted Numbers', 'Predicted Accuracy (%)']
