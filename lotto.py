@@ -173,7 +173,7 @@ st.title('Korea Lotto Prediction & Analysis')
 file_path = 'Lotto_Numbers.csv'
 
 # Load data with caching to improve performance
-@st.cache_data
+@st.cache  # 변경된 부분
 def load_data(file_path):
     lotto_data = pd.read_csv(file_path, dtype='uint8')
     return lotto_data
@@ -286,7 +286,7 @@ def predict_numbers_and_accuracy(models):
             if encoder_flag:
                 le = LabelEncoder()
                 y_train_col = le.fit_transform(y_train_col)
-                y_test_col_encoded = le.transform(y_test_col)
+                y_test_col = le.transform(y_test_col)
                 encoders.append(le)
             else:
                 le = None
@@ -334,3 +334,4 @@ if st.button('Predict NEXT Winning Lotto Numbers by ML Models'):
     st.table(model_descriptions_df)
     
     visualize_most_frequent(y)  # Call the visualization function here
+
