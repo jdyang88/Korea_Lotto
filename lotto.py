@@ -216,7 +216,7 @@ SEED = 2024
 
 # Define models with brief descriptions
 models = {
-    'Random Forest': RandomForestClassifier(n_estimators=100, random_state=SEED),
+    'Random Forest': RandomForestClassifier(n_estimators=300, max_depth=12, random_state=SEED),
     'AdaBoost': AdaBoostClassifier(n_estimators=100, random_state=SEED),
     'Stacking': StackingClassifier(
         estimators=[
