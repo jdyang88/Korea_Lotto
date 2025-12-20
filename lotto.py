@@ -169,7 +169,7 @@ warnings.filterwarnings('ignore')
 st.title('Korea Lotto Prediction & Analysis')
 
 # Load data
-file_path = 'Lotto_Numbers.csv'
+file_path = 'Lotto_Numbers.xlsx'
 data = pd.read_csv(file_path)
 X = data.iloc[:, 0].values.reshape(-1, 1)  # Draw number
 y = data.iloc[:, 1:].values  # Drawn numbers
@@ -297,3 +297,4 @@ if st.button('Predict NEXT 7 sets of Winning Lotto Numbers by 7 ML Models'):
     st.table(model_descriptions_df)
 
     visualize_most_frequent(y)  # Call the visualization function here
+
